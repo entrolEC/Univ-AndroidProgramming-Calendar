@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,6 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new CalendarAdapter(this));
+        gridview.setAdapter(new CalendarAdapter(this, Calendar.getInstance()));
     }
 }

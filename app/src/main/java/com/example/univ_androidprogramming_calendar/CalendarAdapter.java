@@ -7,26 +7,32 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class CalendarAdapter extends BaseAdapter {
     private Context mContext;
+    private Calendar calendar;
+    private int minDate = 1;
 
-    public CalendarAdapter(Context mContext) {
+    public CalendarAdapter(Context mContext, Calendar calendar) {
         this.mContext = mContext;
+        this.calendar = calendar;
+        minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     @Override
     public int getCount() {
-        return 30;
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)+minDate-1;
     }
 
     @Override
     public Object getItem(int i) {
-        return i;
+        return i+1;
     }
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return i+1;
     }
 
     @Override
@@ -35,7 +41,10 @@ public class CalendarAdapter extends BaseAdapter {
         if (view == null) {
 
             textView = new TextView(mContext);
-            textView.setText(Integer.toString(i));
+            if(minDate <= i+1) {
+                textView.setText(Integer.toString(i+2 - minDate));
+            }
+
             textView.setGravity(Gravity.CENTER);
         } else {
             textView = (TextView) view;
