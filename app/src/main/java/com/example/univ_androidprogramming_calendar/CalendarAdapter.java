@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -46,6 +47,7 @@ public class CalendarAdapter extends BaseAdapter {
             }
 
             textView.setGravity(Gravity.CENTER);
+            textView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
         } else {
             textView = (TextView) view;
         }
