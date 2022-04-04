@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -50,6 +51,16 @@ public class CalendarAdapter extends BaseAdapter {
             textView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
         } else {
             textView = (TextView) view;
+        }
+
+        if (i - 1 > 0) {
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - 1);
+                    Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         return textView;
