@@ -22,7 +22,6 @@ public class CalendarAdapter extends BaseAdapter {
         this.calendar = calendar;
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        Log.e("log",Integer.toString(minDate));
     }
 
     @Override
@@ -44,7 +43,6 @@ public class CalendarAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView textView;
         if (view == null) {
-
             textView = new TextView(mContext);
             if(0 <= i - minDate) {
                 textView.setText(Integer.toString(i - minDate + 1));
