@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         gridview.setAdapter(new CalendarAdapter(this, calendar));
 
         TextView title = findViewById(R.id.textView_title);
-        title.setText(String.format("%d.%d",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1));
+        title.setText(String.format("%d년 %d월",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1));
 
         Button prev = findViewById(R.id.button_prev);
         Button next = findViewById(R.id.button_next);
