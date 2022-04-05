@@ -57,13 +57,15 @@ public class CalendarAdapter extends BaseAdapter {
         }
 
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH)+1) + "." + Integer.toString(i - minDate + 1);
-                Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (i - minDate + 1 > 0) {
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
+                    Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 
         return textView;
