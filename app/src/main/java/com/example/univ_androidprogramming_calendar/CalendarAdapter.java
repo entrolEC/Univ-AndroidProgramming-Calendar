@@ -32,12 +32,12 @@ public class CalendarAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return i+1;
+        return i;
     }
 
     @Override
     public long getItemId(int i) {
-        return i+1;
+        return i;
     }
 
     @Override
