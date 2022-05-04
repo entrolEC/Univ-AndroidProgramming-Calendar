@@ -33,17 +33,17 @@ public class MainActivity extends AppCompatActivity {
         Button prev = findViewById(R.id.button_prev);
         Button next = findViewById(R.id.button_next);
 
-        prev.setOnClickListener(new moveCalendar(calendar, -1));
-        next.setOnClickListener(new moveCalendar(calendar, 1));
+        prev.setOnClickListener(new MoveCalendar(calendar, -1));
+        next.setOnClickListener(new MoveCalendar(calendar, 1));
 
 
     }
 
-    class moveCalendar implements View.OnClickListener {
+    class MoveCalendar implements View.OnClickListener {
         private Calendar calendar;
         private int value;
 
-        moveCalendar(Calendar calendar, int value) {
+        MoveCalendar(Calendar calendar, int value) {
             this.calendar = calendar;
             this.value = value;
         }
