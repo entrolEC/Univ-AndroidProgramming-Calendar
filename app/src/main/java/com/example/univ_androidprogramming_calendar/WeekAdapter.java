@@ -35,12 +35,15 @@ public class WeekAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
         textView = new TextView(mContent);
-        textView.setText("hi");
-        textView.setGravity(Gravity.CENTER);
-        int screenHeight = ((Activity) mContent).getWindowManager()
-                .getDefaultDisplay().getHeight();
 
+        textView.setGravity(Gravity.CENTER);
+        int screenHeight = ((Activity) mContent).getWindowManager().getDefaultDisplay().getHeight();
+
+
+        textView.setText("hi");
         textView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, screenHeight/15));
+
+
         return textView;
     }
 }

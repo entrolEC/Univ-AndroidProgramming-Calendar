@@ -1,5 +1,6 @@
 package com.example.univ_androidprogramming_calendar;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -10,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +72,20 @@ public class WeekFragment extends Fragment {
 
         GridView timeGrid = (GridView) view.findViewById(R.id.time_gridview);
         timeGrid.setAdapter(new TimeAdapter(getActivity()));
+
+        TableLayout timeTable = view.findViewById(R.id.time_table);
+        int screenHeight = ((Activity) getActivity()).getWindowManager()
+                .getDefaultDisplay().getHeight();
+        for(int i = 1; i < 24; i++) {
+            TableRow tableRow = new TableRow(getActivity());
+            TextView tv = new TextView(getActivity());
+            tv.setText(Integer.toString(i));
+            tv.setGravity(Gravity.CENTER);
+            tableRow.addView(tv);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tv.getLayoutParams();
+            params.topMargin = screenHeight/24;
+            timeTable.addView(tableRow);
+        }
         return view;
     }
 }
