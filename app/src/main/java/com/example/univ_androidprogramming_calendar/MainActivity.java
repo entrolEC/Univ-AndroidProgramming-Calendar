@@ -1,6 +1,8 @@
 package com.example.univ_androidprogramming_calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,26 +19,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Calendar calendar = Calendar.getInstance();
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+//        Calendar calendar = Calendar.getInstance();
+//        GridView gridview = (GridView) findViewById(R.id.gridview);
+//
+//        Intent intent = getIntent();
+//        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
+//        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
+//        calendar.set(year, month, calendar.get(Calendar.DATE));
+//
+//        gridview.setAdapter(new CalendarAdapter(this, calendar));
+//
+//        TextView title = findViewById(R.id.textView_title);
+//        title.setText(String.format("%d년 %d월",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1));
+//
+//        Button prev = findViewById(R.id.button_prev);
+//        Button next = findViewById(R.id.button_next);
+//
+//        prev.setOnClickListener(new MoveCalendar(calendar, -1));
+//        next.setOnClickListener(new MoveCalendar(calendar, 1));
 
-        Intent intent = getIntent();
-        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
-        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
-        calendar.set(year, month, calendar.get(Calendar.DATE));
-
-        gridview.setAdapter(new CalendarAdapter(this, calendar));
-
-        TextView title = findViewById(R.id.textView_title);
-        title.setText(String.format("%d년 %d월",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1));
-
-        Button prev = findViewById(R.id.button_prev);
-        Button next = findViewById(R.id.button_next);
-
-        prev.setOnClickListener(new MoveCalendar(calendar, -1));
-        next.setOnClickListener(new MoveCalendar(calendar, 1));
-
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, new WeekFragment());
+        fragmentTransaction.commit();
     }
 
     class MoveCalendar implements View.OnClickListener {
