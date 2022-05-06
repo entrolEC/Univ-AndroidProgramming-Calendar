@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -19,13 +20,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
 //        GridView gridview = (GridView) findViewById(R.id.gridview);
-//
-//        Intent intent = getIntent();
-//        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
-//        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
-//        calendar.set(year, month, calendar.get(Calendar.DATE));
+
+        Intent intent = getIntent();
+        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
+        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
+        calendar.set(year, month, calendar.get(Calendar.DATE));
+        Log.d("MainActivity", "currenttime"+calendar.getTime());
 //
 //        gridview.setAdapter(new CalendarAdapter(this, calendar));
 //
@@ -38,9 +40,16 @@ public class MainActivity extends AppCompatActivity {
 //        prev.setOnClickListener(new MoveCalendar(calendar, -1));
 //        next.setOnClickListener(new MoveCalendar(calendar, 1));
 
+        Bundle bundle = new Bundle(); // https://stackoverflow.com/questions/12739909/send-data-from-activity-to-fragment-in-android
+        bundle.putInt("year", calendar.get(Calendar.YEAR));
+        bundle.putInt("month", calendar.get(Calendar.MONTH));
+        bundle.putInt("day", calendar.getFirstDayOfWeek());
+        WeekFragment fragobj = new WeekFragment();
+        fragobj.setArguments(bundle);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, new WeekFragment());
+        fragmentTransaction.add(R.id.fragment_container, fragobj);
         fragmentTransaction.commit();
     }
 

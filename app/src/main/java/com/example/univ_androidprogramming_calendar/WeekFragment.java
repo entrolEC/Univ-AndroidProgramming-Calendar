@@ -1,11 +1,13 @@
 package com.example.univ_androidprogramming_calendar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,9 +67,15 @@ public class WeekFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Calendar calendar = Calendar.getInstance();
+
+        int year = getArguments().getInt("year");
+        int month = getArguments().getInt("month");
+        int day = getArguments().getInt("day");
+        calendar.set(year, month, day);
+        Log.d("weekfragment", "onCreateView: "+calendar.getTime());
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         GridView dateGrid = (GridView) view.findViewById(R.id.date_gridview);
         dateGrid.setAdapter(new WeekAdapter(getActivity()));
@@ -74,8 +84,7 @@ public class WeekFragment extends Fragment {
         timeGrid.setAdapter(new TimeAdapter(getActivity()));
 
         TableLayout timeTable = view.findViewById(R.id.time_table);
-        int screenHeight = ((Activity) getActivity()).getWindowManager()
-                .getDefaultDisplay().getHeight();
+        int screenHeight = ((Activity) getActivity()).getWindowManager().getDefaultDisplay().getHeight();
         for(int i = 1; i < 24; i++) {
             TableRow tableRow = new TableRow(getActivity());
             TextView tv = new TextView(getActivity());
@@ -86,6 +95,11 @@ public class WeekFragment extends Fragment {
             params.topMargin = screenHeight/24;
             timeTable.addView(tableRow);
         }
+
+
+        //calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        // get start of this week in milliseconds
+
         return view;
     }
 }
