@@ -37,9 +37,10 @@ public class TimeAdapter extends BaseAdapter {
         textView = new TextView(mContent);
         textView.setText("hi");
         textView.setGravity(Gravity.CENTER);
-        int screenHeight = ((Activity) mContent).getWindowManager()
-                .getDefaultDisplay().getHeight();
-        textView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, screenHeight/15));
+        int screenHeight = ((Activity) mContent).getWindowManager().getDefaultDisplay().getHeight();
+        int screenWidth = ((Activity) mContent).getWindowManager().getDefaultDisplay().getWidth();
+        textView.setLayoutParams(new GridView.LayoutParams(screenWidth/7, screenHeight/15+1));
+        textView.setBackgroundResource(R.drawable.border);
         return textView;
     }
 }
