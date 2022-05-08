@@ -3,9 +3,12 @@ package com.example.univ_androidprogramming_calendar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,7 +29,7 @@ public class CalendarAdapter extends BaseAdapter {
     public CalendarAdapter(Context mContext, Calendar calendar) {
         this.mContext = mContext;
         this.calendar = calendar;
-        this.calendar.set(Calendar.MONTH, 0);
+        this.calendar.set(Calendar.MONTH, 6);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
@@ -50,7 +53,6 @@ public class CalendarAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView textView;
-        Log.i("!", Integer.toString(i));
 
         if (view == null) {
             textView = new TextView(mContext);
@@ -64,10 +66,10 @@ public class CalendarAdapter extends BaseAdapter {
 
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         // textView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
-        int height = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
-        int width = ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth();
-
-        textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 7 + 6));
+//        int height = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
+        int width = ((Activity) mContext).findViewById(R.id.fragment).getWidth();
+        int height = ((Activity) mContext).findViewById(R.id.fragment).getHeight();
+        textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
 
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
         textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
