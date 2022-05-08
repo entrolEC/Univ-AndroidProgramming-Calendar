@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +45,24 @@ public class MainActivity extends AppCompatActivity {
 //        prev.setOnClickListener(new MoveCalendar(calendar, -1));
 //        next.setOnClickListener(new MoveCalendar(calendar, 1));
 
-        ViewPager2 vpPager = findViewById(R.id.vpPager);
-        vpPager.setCurrentItem(50, false);
+        viewPager = findViewById(R.id.vpPager);
+        viewPager.setCurrentItem(50, false);
 //        vpPager.setCurrentItem(50);
         FragmentStateAdapter vpAdapter = new PagerAdapter(this, calendar);
-        vpPager.setAdapter(vpAdapter);
+        viewPager.setAdapter(vpAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final int pos = 50;
+        viewPager.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(pos);
+            }
+        }, 100);
     }
 
     class MoveCalendar implements View.OnClickListener {

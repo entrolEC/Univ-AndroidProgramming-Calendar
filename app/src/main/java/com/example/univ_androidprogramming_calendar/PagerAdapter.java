@@ -24,7 +24,7 @@ public class PagerAdapter extends FragmentStateAdapter {
         temp.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
         temp.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
         temp.set(Calendar.DATE, calendar.get(Calendar.DATE));
-        temp.add(Calendar.DATE, 7*position);
+        temp.add(Calendar.DATE, 7*(position-50));
         WeekFragment fragobj = new WeekFragment(temp);
         return fragobj;
     }
