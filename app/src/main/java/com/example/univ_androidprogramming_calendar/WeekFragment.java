@@ -78,10 +78,12 @@ public class WeekFragment extends Fragment {
         Log.d("weekfragment", "onCreateView: "+calendar.getTime());
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         GridView dateGrid = (GridView) view.findViewById(R.id.date_gridview);
-        dateGrid.setAdapter(new WeekAdapter(getActivity()));
+        WeekAdapter weekAdapter = new WeekAdapter(getActivity(), calendar);
+        TimeAdapter timeAdapter = new TimeAdapter(getActivity(), weekAdapter);
+        dateGrid.setAdapter(weekAdapter);
 
         GridView timeGrid = (GridView) view.findViewById(R.id.time_gridview);
-        timeGrid.setAdapter(new TimeAdapter(getActivity()));
+        timeGrid.setAdapter(timeAdapter);
 
         TableLayout timeTable = view.findViewById(R.id.time_table);
         int screenHeight = ((Activity) getActivity()).getWindowManager().getDefaultDisplay().getHeight();
