@@ -54,7 +54,6 @@ public class CalendarAdapter extends BaseAdapter {
             textView = (TextView) view;
         }
 
-
         if (i - minDate + 1 > 0) {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
