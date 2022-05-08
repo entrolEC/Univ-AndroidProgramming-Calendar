@@ -64,12 +64,10 @@
             android:text="토" />
     </GridLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:name="com.example.univ_androidprogramming_calendar.MonthFragment"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment"
-        />
+        android:layout_height="match_parent"/>
 
 <!--    <GridLayout-->
 <!--        android:layout_width="wrap_content"-->

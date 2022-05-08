@@ -66,8 +66,9 @@ public class CalendarAdapter extends BaseAdapter {
 
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        int width = ((Activity) mContext).findViewById(R.id.fragment).getWidth();
-        int height = ((Activity) mContext).findViewById(R.id.fragment).getHeight();
+        int width = ((Activity) mContext).findViewById(R.id.vpPager).getWidth();
+        int height = ((Activity) mContext).findViewById(R.id.vpPager).getHeight();
+
         textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
 
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
@@ -83,7 +84,7 @@ public class CalendarAdapter extends BaseAdapter {
                     lastSelected = textView;
                     textView.setBackgroundColor(Color.CYAN);
 
-                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
+                    String msg = calendar.get(Calendar.YEAR) + "." + calendar.get(Calendar.MONTH) + "." + Integer.toString(i - minDate + 1);
                     Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 }
             });
