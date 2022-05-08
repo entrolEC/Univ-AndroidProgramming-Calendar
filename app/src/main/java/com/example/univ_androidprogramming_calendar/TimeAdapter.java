@@ -15,7 +15,6 @@ import android.widget.Toast;
 public class TimeAdapter extends BaseAdapter {
     private Context mContext;
     private int selectedPosition = -1;
-    private TextView prevSelected;
     private WeekAdapter weekAdapter;
 
     public TimeAdapter(Context mContent, WeekAdapter weekAdapter) {
@@ -53,17 +52,18 @@ public class TimeAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 selectedPosition = position;
-                if(prevSelected != null) {
-                    prevSelected.setBackgroundResource(R.drawable.border);
-                }
-                prevSelected = textView;
                 textView.setBackgroundColor(Color.CYAN);
 
                 weekAdapter.setSelected(position%7);
                 weekAdapter.notifyDataSetChanged();
+                TimeAdapter.this.notifyDataSetChanged();
                 Log.d("adapter listener", String.valueOf(selectedPosition));
             }
         });
+
+        if(selectedPosition == position) {
+            textView.setBackgroundColor(Color.CYAN);
+        }
 
         return textView;
     }
