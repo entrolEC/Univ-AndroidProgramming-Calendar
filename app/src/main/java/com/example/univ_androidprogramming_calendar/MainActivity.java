@@ -3,8 +3,11 @@ package com.example.univ_androidprogramming_calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         Calendar calendar = Calendar.getInstance();
 //        GridView gridview = (GridView) findViewById(R.id.gridview);
 
@@ -40,17 +44,11 @@ public class MainActivity extends AppCompatActivity {
 //        prev.setOnClickListener(new MoveCalendar(calendar, -1));
 //        next.setOnClickListener(new MoveCalendar(calendar, 1));
 
-        Bundle bundle = new Bundle(); // https://stackoverflow.com/questions/12739909/send-data-from-activity-to-fragment-in-android
-        bundle.putInt("year", calendar.get(Calendar.YEAR));
-        bundle.putInt("month", calendar.get(Calendar.MONTH));
-        bundle.putInt("day", calendar.getFirstDayOfWeek());
-        WeekFragment fragobj = new WeekFragment();
-        fragobj.setArguments(bundle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragobj);
-        fragmentTransaction.commit();
+        ViewPager2 vpPager = findViewById(R.id.vpPager);
+        vpPager.setCurrentItem(50, false);
+//        vpPager.setCurrentItem(50);
+        FragmentStateAdapter vpAdapter = new PagerAdapter(this, calendar);
+        vpPager.setAdapter(vpAdapter);
     }
 
     class MoveCalendar implements View.OnClickListener {

@@ -57,6 +57,14 @@ public class WeekAdapter extends BaseAdapter {
         textView.setText(String.valueOf(temp.get(Calendar.DATE)));
         textView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, screenHeight/15));
 
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selected = position;
+                WeekAdapter.this.notifyDataSetChanged();
+            }
+        });
+
         if(selected == position) {
             textView.setBackgroundColor(Color.CYAN);
         }
