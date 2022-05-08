@@ -41,7 +41,6 @@ public class TimeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
         textView = new TextView(mContext);
-        textView.setText("hi");
         textView.setGravity(Gravity.CENTER);
         int screenHeight = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
         int screenWidth = ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth();

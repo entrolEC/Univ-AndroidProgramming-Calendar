@@ -75,6 +75,8 @@ public class WeekFragment extends Fragment {
         int month = getArguments().getInt("month");
         int day = getArguments().getInt("day");
         calendar.set(year, month, day);
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        //https://stackoverflow.com/questions/2937086/how-to-get-the-first-day-of-the-current-week-and-month
         Log.d("weekfragment", "onCreateView: "+calendar.getTime());
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         GridView dateGrid = (GridView) view.findViewById(R.id.date_gridview);
@@ -97,10 +99,6 @@ public class WeekFragment extends Fragment {
             params.topMargin = screenHeight/24;
             timeTable.addView(tableRow);
         }
-
-
-        //calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        // get start of this week in milliseconds
 
         return view;
     }
