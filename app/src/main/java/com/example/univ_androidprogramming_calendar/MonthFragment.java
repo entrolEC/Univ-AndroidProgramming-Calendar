@@ -24,19 +24,18 @@ public class MonthFragment extends Fragment {
         GridView gridView = (GridView) view.findViewById(R.id.gridview);
         gridView.setAdapter(new CalendarAdapter(getActivity(), calendar));
 
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getRealSize(size); // or getSize(size)
-        int width = size.x;
-        int height = size.y;
-
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        float density = outMetrics.density;
-
-        int dp = (int) ((height / 6 / density));
-
-        gridView.setVerticalSpacing(dp);
+//        Display display = getActivity().getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getRealSize(size);
+//        int height = size.y;
+//
+//        DisplayMetrics outMetrics = new DisplayMetrics();
+//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+//        float density = outMetrics.density;
+//
+//        int dp = (int) ((height / density));
+//
+//        gridView.setVerticalSpacing(dp / 6);
 
         return view;
     }

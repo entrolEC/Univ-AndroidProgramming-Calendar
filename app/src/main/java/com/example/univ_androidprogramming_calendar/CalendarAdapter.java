@@ -1,14 +1,20 @@
 package com.example.univ_androidprogramming_calendar;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 
@@ -20,13 +26,15 @@ public class CalendarAdapter extends BaseAdapter {
     public CalendarAdapter(Context mContext, Calendar calendar) {
         this.mContext = mContext;
         this.calendar = calendar;
+        this.calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     @Override
     public int getCount() {
-        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH) + minDate;
+        int cntdate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH) + minDate;
+        return 42 - cntdate + cntdate;
     }
 
     @Override
@@ -42,17 +50,27 @@ public class CalendarAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView textView;
+        Log.i("!", Integer.toString(i));
+
         if (view == null) {
             textView = new TextView(mContext);
-            if(0 <= i - minDate) {
+
+            if(0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 textView.setText(Integer.toString(i - minDate + 1));
             }
-
-            textView.setGravity(Gravity.CENTER);
-            textView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
         } else {
             textView = (TextView) view;
         }
+
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        // textView.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 1f));
+        int height = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
+        int width = ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth();
+
+        textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 7 + 6));
+
+        // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
+        textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
 
         if (i - minDate + 1 > 0) {
             textView.setOnClickListener(new View.OnClickListener() {
