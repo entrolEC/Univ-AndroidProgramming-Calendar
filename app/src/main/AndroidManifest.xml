@@ -11,7 +11,9 @@
         android:theme="@style/Theme.UnivAndroidProgrammingCalendar">
         <activity
             android:name=".MainActivity"
+            android:configChanges="screenSize|orientation"
             android:exported="true">
+<!--            https://jhshjs.tistory.com/25-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
