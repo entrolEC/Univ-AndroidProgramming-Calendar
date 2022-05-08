@@ -16,10 +16,13 @@ import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 
 public class MonthFragment extends Fragment {
+    Calendar calendar;
+    public MonthFragment(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        Calendar calendar = Calendar.getInstance();
 
         View view = inflater.inflate(R.layout.month, container, false);
         GridView gridView = (GridView) view.findViewById(R.id.gridview);

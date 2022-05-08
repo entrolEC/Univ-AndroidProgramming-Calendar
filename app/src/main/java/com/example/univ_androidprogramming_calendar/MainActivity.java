@@ -1,87 +1,71 @@
 package com.example.univ_androidprogramming_calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPager2 viewPager;
+    private ViewPager2 vpPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         Calendar calendar = Calendar.getInstance();
-//        GridView gridview = (GridView) findViewById(R.id.gridview);
+        Calendar tempCalendar = Calendar.getInstance();
 
-        Intent intent = getIntent();
-        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
-        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
-        calendar.set(year, month, calendar.get(Calendar.DATE));
-        Log.d("MainActivity", "currenttime"+calendar.getTime());
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("year", calendar.get(Calendar.YEAR));
+//        bundle.putInt("month", calendar.get(Calendar.MONTH));
 //
+//        MonthFragment monthfrag = new MonthFragment();
+//        monthfrag.setArguments(bundle);
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.month_fragment, monthfrag);
+//        fragmentTransaction.commit();
+
+        vpPager = findViewById(R.id.vpPager);
+        vpPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("Month", Integer.toString(calendar.get(Calendar.MONTH) - (50 - position)));
+                Log.i("Now", Integer.toString(position));
+//                tempCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - position));
+            }
+        });
+        FragmentStateAdapter vpAdapter = new MonthPagerAdapter(this, tempCalendar);
+        vpPager.setAdapter(vpAdapter);
+
 //        gridview.setAdapter(new CalendarAdapter(this, calendar));
-//
+
 //        TextView title = findViewById(R.id.textView_title);
 //        title.setText(String.format("%d년 %d월",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1));
 //
 //        Button prev = findViewById(R.id.button_prev);
 //        Button next = findViewById(R.id.button_next);
 //
-//        prev.setOnClickListener(new MoveCalendar(calendar, -1));
-//        next.setOnClickListener(new MoveCalendar(calendar, 1));
+//        prev.setOnClickListener(new moveCalendar(calendar, -1));
+//        next.setOnClickListener(new moveCalendar(calendar, 1));
 
-        viewPager = findViewById(R.id.vpPager);
-        viewPager.setCurrentItem(50, false);
-//        vpPager.setCurrentItem(50);
-        FragmentStateAdapter vpAdapter = new PagerAdapter(this, calendar);
-        viewPager.setAdapter(vpAdapter);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         final int pos = 50;
-        viewPager.postDelayed(new Runnable() {
+        vpPager.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                viewPager.setCurrentItem(pos);
+                vpPager.setCurrentItem(pos);
             }
         }, 100);
-    }
-
-    class MoveCalendar implements View.OnClickListener {
-        private Calendar calendar;
-        private int value;
-
-        MoveCalendar(Calendar calendar, int value) {
-            this.calendar = calendar;
-            this.value = value;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            calendar.add(Calendar.MONTH, value);
-            intent.putExtra("year", calendar.get(Calendar.YEAR));
-            intent.putExtra("month", calendar.get(Calendar.MONTH));
-            startActivity(intent);
-            finish();
-        }
     }
 }
