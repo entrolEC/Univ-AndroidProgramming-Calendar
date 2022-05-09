@@ -25,12 +25,19 @@ public class CalendarAdapter extends BaseAdapter {
     private Calendar calendar;
     private int minDate = 0;
     private TextView lastSelected;
+    private int position;
+    private Calendar tmpCalendar;
 
-    public CalendarAdapter(Context mContext, Calendar calendar) {
+    public CalendarAdapter(Context mContext, int position) {
         this.mContext = mContext;
-        this.calendar = calendar;
+        this.calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - position));
+        Log.i("Position", Integer.toString(position));
+
+        this.calendar.set(Calendar.DAY_OF_MONTH, 1);
+
         this.minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
@@ -66,8 +73,14 @@ public class CalendarAdapter extends BaseAdapter {
 
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
 
+        // https://inma.tistory.com/72
+        DisplayMetrics displayMetrics= new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        float density =  displayMetrics.density;
+
         int width = ((Activity) mContext).findViewById(R.id.vpPager).getWidth();
-        int height = ((Activity) mContext).findViewById(R.id.vpPager).getHeight();
+        int height = ((Activity) mContext).findViewById(R.id.vpPager).getHeight() - (int) (20 * density);
 
         textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
 
@@ -84,7 +97,7 @@ public class CalendarAdapter extends BaseAdapter {
                     lastSelected = textView;
                     textView.setBackgroundColor(Color.CYAN);
 
-                    String msg = calendar.get(Calendar.YEAR) + "." + calendar.get(Calendar.MONTH) + "." + Integer.toString(i - minDate + 1);
+                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
                     Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 }
             });
