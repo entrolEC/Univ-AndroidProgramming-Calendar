@@ -85,14 +85,14 @@ public class CalendarAdapter extends BaseAdapter {
         textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
 
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
-        textView.setBackgroundResource(R.drawable.border);
+        textView.setBackgroundResource(R.drawable.month_border);
 
         if (0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (lastSelected != null) {
-                        lastSelected.setBackgroundResource(R.drawable.border);
+                        lastSelected.setBackgroundResource(R.drawable.month_border);
                     }
                     lastSelected = textView;
                     textView.setBackgroundColor(Color.CYAN);
