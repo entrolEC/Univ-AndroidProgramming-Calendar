@@ -11,7 +11,6 @@ import java.util.Calendar;
 
 public class MonthPagerAdapter extends FragmentStateAdapter {
     Calendar calendar;
-    Calendar tempCalendar = Calendar.getInstance();
 
 
     public MonthPagerAdapter(FragmentActivity fragmentActivity, Calendar calendar) {
@@ -22,9 +21,7 @@ public class MonthPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        tempCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-
-        MonthFragment monthFragment = new MonthFragment(tempCalendar, position);
+        MonthFragment monthFragment = new MonthFragment(calendar, position);
 
         return monthFragment;
     }

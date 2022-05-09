@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.ActionBar;
+
 import java.util.Calendar;
 
 public class CalendarAdapter extends BaseAdapter {
@@ -25,8 +27,6 @@ public class CalendarAdapter extends BaseAdapter {
     private Calendar calendar;
     private int minDate = 0;
     private TextView lastSelected;
-    private int position;
-    private Calendar tmpCalendar;
 
     public CalendarAdapter(Context mContext, int position) {
         this.mContext = mContext;

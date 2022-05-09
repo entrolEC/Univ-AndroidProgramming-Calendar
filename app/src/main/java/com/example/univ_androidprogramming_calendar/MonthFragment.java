@@ -1,5 +1,6 @@
 package com.example.univ_androidprogramming_calendar;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.hardware.display.DisplayManager;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
