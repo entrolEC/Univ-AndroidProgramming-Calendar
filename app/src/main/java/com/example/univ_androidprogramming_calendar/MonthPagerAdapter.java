@@ -22,10 +22,9 @@ public class MonthPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Log.i("frpos", Integer.toString(tempCalendar.get(Calendar.YEAR)));
         tempCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-        tempCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - position));
-        MonthFragment monthFragment = new MonthFragment(tempCalendar);
+
+        MonthFragment monthFragment = new MonthFragment(tempCalendar, position);
 
         return monthFragment;
     }
