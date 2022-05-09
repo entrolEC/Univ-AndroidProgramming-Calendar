@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class TimeAdapter extends BaseAdapter {
     private Context mContext;
     private int selectedPosition = -1;
@@ -57,6 +59,8 @@ public class TimeAdapter extends BaseAdapter {
                 weekAdapter.notifyDataSetChanged();
                 TimeAdapter.this.notifyDataSetChanged();
                 Log.d("adapter listener", String.valueOf(selectedPosition));
+                String msg = String.format("position:%d", position);
+                Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
 
