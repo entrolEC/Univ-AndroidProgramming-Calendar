@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "currenttime"+calendar.getTime());
 
         viewPager = findViewById(R.id.vpPager);
-        FragmentStateAdapter vpAdapter = new MonthPagerAdapter(this, calendar);
+        FragmentStateAdapter vpAdapter = new PagerAdapter(this, calendar);
         viewPager.setAdapter(vpAdapter);
     }
 

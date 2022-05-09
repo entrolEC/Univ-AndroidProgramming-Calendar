@@ -57,7 +57,7 @@ public class WeekFragment extends Fragment {
 
         TableLayout timeTable = view.findViewById(R.id.time_table);
         int screenHeight = ((Activity) getActivity()).getWindowManager().getDefaultDisplay().getHeight();
-        for(int i = 1; i < 24; i++) {
+        for(int i = 1; i <= 24; i++) {
             TableRow tableRow = new TableRow(getActivity());
             TextView tv = new TextView(getActivity());
             tv.setText(Integer.toString(i));
