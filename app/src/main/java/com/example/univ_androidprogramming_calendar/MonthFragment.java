@@ -19,11 +19,9 @@ import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 
 public class MonthFragment extends Fragment {
-    Calendar calendar, tempcalendar = Calendar.getInstance();
-    int position;
+    private int position;
 
-    public MonthFragment(Calendar calendar, int position) {
-        this.calendar = calendar;
+    public MonthFragment(int position) {
         this.position = position;
     }
 

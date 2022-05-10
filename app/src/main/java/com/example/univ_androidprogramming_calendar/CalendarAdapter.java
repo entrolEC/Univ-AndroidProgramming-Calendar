@@ -37,7 +37,6 @@ public class CalendarAdapter extends BaseAdapter {
         Log.i("Position", Integer.toString(position));
 
         this.calendar.set(Calendar.DAY_OF_MONTH, 1);
-
         this.minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 

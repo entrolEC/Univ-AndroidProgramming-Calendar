@@ -2,24 +2,15 @@ package com.example.univ_androidprogramming_calendar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -34,29 +25,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-//        GridView gridview = (GridView) findViewById(R.id.gridview);
-
-        Intent intent = getIntent();
-        int year = intent.getIntExtra("year", calendar.get(Calendar.YEAR));
-        int month = intent.getIntExtra("month", calendar.get(Calendar.MONTH));
-        calendar.set(year, month, calendar.get(Calendar.DATE));
-        Log.d("MainActivity", "currenttime"+calendar.getTime());
 
         viewPager = findViewById(R.id.vpPager);
-        vpAdapter = new MonthPagerAdapter(this, calendar);
+        vpAdapter = new MonthPagerAdapter(this);
         viewPager.setAdapter(vpAdapter);
+
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
+                Log.i("Position", Integer.toString(position));
                 if (viewPager.getAdapter() instanceof MonthPagerAdapter) {
                     actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - position));
+                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - (position == 0 ? 50 : position)));
+
+                    actionBar = getSupportActionBar();
+                    actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
+                } else {
+                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                    actionBarCalendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - (50 - (position == 0 ? 50 : position)) * 7);
 
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
                 }
             }
         });
+
     }
 
     @Override
@@ -92,12 +86,16 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_month:
-                vpAdapter = new MonthPagerAdapter(this, calendar);
-                viewPager.setAdapter(vpAdapter);
+                if (!(viewPager.getAdapter() instanceof MonthPagerAdapter)) {
+                    vpAdapter = new MonthPagerAdapter(this);
+                    viewPager.setAdapter(vpAdapter);
+                }
                 return true;
             case R.id.action_week:
-                vpAdapter = new PagerAdapter(this, calendar);
-                viewPager.setAdapter(vpAdapter);
+                if (!(viewPager.getAdapter() instanceof PagerAdapter)) {
+                    vpAdapter = new PagerAdapter(this, calendar);
+                    viewPager.setAdapter(vpAdapter);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
