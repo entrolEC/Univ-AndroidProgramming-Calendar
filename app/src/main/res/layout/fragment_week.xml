@@ -87,20 +87,19 @@
             android:layout_width="wrap_content"
             android:layout_height="1200dp"
             android:orientation="horizontal">
+
             <TableLayout
+                android:layout_marginTop="-28dp"
+                android:id="@+id/time_table"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/time_table">
+                android:layout_height="match_parent">
+
                 <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:gravity="center"
-                        android:text="0" />
+
                 </TableRow>
             </TableLayout>
-        <GridView
+
+            <GridView
             android:id="@+id/time_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

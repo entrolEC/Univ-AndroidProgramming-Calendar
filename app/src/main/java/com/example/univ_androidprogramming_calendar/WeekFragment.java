@@ -51,14 +51,18 @@ public class WeekFragment extends Fragment {
 
         TableLayout timeTable = view.findViewById(R.id.time_table);
         int screenHeight = ((Activity) getActivity()).getWindowManager().getDefaultDisplay().getHeight();
-        for(int i = 1; i <= 24; i++) {
+        for(int i = 0; i <= 24; i++) {
             TableRow tableRow = new TableRow(getActivity());
             TextView tv = new TextView(getActivity());
             tv.setText(Integer.toString(i));
             tv.setGravity(Gravity.CENTER);
             tableRow.addView(tv);
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tv.getLayoutParams();
-            params.topMargin = screenHeight/24;
+            params.height = screenHeight/12;
+
+//            if(i==0) {
+//                params.topMargin = -screenHeight/24;
+//            }
             timeTable.addView(tableRow);
         }
 
