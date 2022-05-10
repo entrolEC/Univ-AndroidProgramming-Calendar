@@ -9,10 +9,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.Calendar;
 
-public class PagerAdapter extends FragmentStateAdapter {
+public class WeekPagerAdapter extends FragmentStateAdapter {
     Calendar calendar;
 
-    public PagerAdapter(FragmentActivity fa, Calendar calendar) {
+    public WeekPagerAdapter(FragmentActivity fa, Calendar calendar) {
         super(fa);
         this.calendar = calendar;
     }
