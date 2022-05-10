@@ -36,13 +36,7 @@ public class WeekFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //Calendar calendar = Calendar.getInstance();
 
-//        int year = getArguments().getInt("year");
-//        int month = getArguments().getInt("month");
-//        int day = getArguments().getInt("day");
-//        calendar.set(year, month, day);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek()); // 현재 주의 첫째 날
         //https://stackoverflow.com/questions/2937086/how-to-get-the-first-day-of-the-current-week-and-month
         Log.d("weekfragment", "onCreateView: "+calendar.getTime());

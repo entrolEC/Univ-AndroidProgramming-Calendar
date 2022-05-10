@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         final int pos = 50;
-        viewPager.postDelayed(new Runnable() {
-
+        viewPager.postDelayed(new Runnable() { // https://stackoverflow.com/questions/19316729/android-viewpager-setcurrentitem-not-working-after-onresume
             @Override
             public void run() {
                 viewPager.setCurrentItem(pos, false);
@@ -92,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.action_week:
-                if (!(viewPager.getAdapter() instanceof PagerAdapter)) {
-                    vpAdapter = new PagerAdapter(this, calendar);
+                if (!(viewPager.getAdapter() instanceof WeekPagerAdapter)) {
+                    vpAdapter = new WeekPagerAdapter(this, calendar);
                     viewPager.setAdapter(vpAdapter);
                 }
                 return true;
