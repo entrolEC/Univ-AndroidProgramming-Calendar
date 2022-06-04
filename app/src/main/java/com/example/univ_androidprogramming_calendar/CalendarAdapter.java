@@ -86,6 +86,7 @@ public class CalendarAdapter extends BaseAdapter {
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
         textView.setBackgroundResource(R.drawable.month_border);
 
+        // https://huskdoll.tistory.com/566
         if (0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
