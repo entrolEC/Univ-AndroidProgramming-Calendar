@@ -2,6 +2,7 @@ package com.example.univ_androidprogramming_calendar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,19 +48,20 @@ public class TimeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LinearLayout linearLayout = new LinearLayout(mContext);
         TextView textView;
         textView = new TextView(mContext);
-        textView.setGravity(Gravity.CENTER);
+        linearLayout.setGravity(Gravity.CENTER);
         int screenHeight = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
         int screenWidth = ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth();
-        textView.setLayoutParams(new GridView.LayoutParams(screenWidth/7, screenHeight/12));
-        textView.setBackgroundResource(R.drawable.border);
+        linearLayout.setLayoutParams(new GridView.LayoutParams(screenWidth/7, screenHeight/12));
+        linearLayout.setBackgroundResource(R.drawable.border);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedPosition = position;
-                textView.setBackgroundColor(Color.CYAN);
+                linearLayout.setBackgroundColor(Color.CYAN);
 
                 weekAdapter.setSelected(position);
                 weekAdapter.notifyDataSetChanged();
@@ -70,7 +73,7 @@ public class TimeAdapter extends BaseAdapter {
         });
 
         if(selectedPosition == position) {
-            textView.setBackgroundColor(Color.CYAN);
+            linearLayout.setBackgroundColor(Color.CYAN);
         }
 
         Calendar temp = Calendar.getInstance();
@@ -84,8 +87,26 @@ public class TimeAdapter extends BaseAdapter {
         if (cursor.moveToNext()) {
             ScheduleItem si = new ScheduleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
             textView.setText(si.getTitle());
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                    intent.putExtra("title", si.getTitle());
+                    intent.putExtra("content", si.getContent());
+                    intent.putExtra("date", si.getDate());
+                    intent.putExtra("start_time", si.getStart_time());
+                    intent.putExtra("end_time", si.getEnd_time());
+                    intent.putExtra("location_latitude", si.getLocation_latitude());
+                    intent.putExtra("location_longitude", si.getLocation_longitude());
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
-        return textView;
+        linearLayout.addView(textView);
+
+        return linearLayout;
     }
 }

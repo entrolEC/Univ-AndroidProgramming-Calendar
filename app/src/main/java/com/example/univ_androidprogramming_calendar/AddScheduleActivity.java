@@ -52,9 +52,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
             endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
             endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
             latLng = new LatLng(Double.parseDouble(getIntent().getStringExtra("location_latitude")), Double.parseDouble(getIntent().getStringExtra("location_longitude")));
-        }
-
-        if (getIntent().getStringExtra("start_time") != null) {
+        } else if (getIntent().getStringExtra("start_time") != null) {
             startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time")));
             endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time")));
         }
