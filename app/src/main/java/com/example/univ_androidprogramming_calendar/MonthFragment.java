@@ -20,9 +20,11 @@ import java.util.Calendar;
 
 public class MonthFragment extends Fragment {
     private int position;
+    private Calendar calendar;
 
-    public MonthFragment(int position) {
+    public MonthFragment(int position, Calendar calendar) {
         this.position = position;
+        this.calendar = calendar;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class MonthFragment extends Fragment {
         View view = inflater.inflate(R.layout.month, container, false);
 
         GridView gridView = (GridView) view.findViewById(R.id.gridview);
-        gridView.setAdapter(new CalendarAdapter(getActivity(), position));
+        gridView.setAdapter(new CalendarAdapter(getActivity(), position, calendar));
 
         return view;
     }

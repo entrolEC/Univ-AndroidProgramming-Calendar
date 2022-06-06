@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +25,7 @@ import java.util.List;
 
 public class AddScheduleActivity extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap mGoogleMap = null;
+    LatLng latLng = new LatLng(37.5817891, 127.009854);;
     private String searchPlace;
 
     @Override
@@ -34,11 +37,27 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Button button = findViewById(R.id.search_button);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        EditText editText = findViewById(R.id.search_editText);
+        EditText titleEditText = findViewById(R.id.title_editText);
+        EditText contentEditText = findViewById(R.id.memo_editText);
+        TimePicker startTimePicker = findViewById(R.id.datePicker_start);
+        TimePicker endTimePicker = findViewById(R.id.datePicker_end);
+
+        if (getIntent().getStringExtra("title") != null) {
+            titleEditText.setText(getIntent().getStringExtra("title"));
+            contentEditText.setText(getIntent().getStringExtra("content"));
+            startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time").split(":")[0]));
+            startTimePicker.setMinute(Integer.parseInt(getIntent().getStringExtra("start_time").split(":")[1]));
+            endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
+            endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
+            latLng = new LatLng(Double.parseDouble(getIntent().getStringExtra("location_latitude")), Double.parseDouble(getIntent().getStringExtra("location_longitude")));
+        }
+
+        Button searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = findViewById(R.id.search_editText);
                 searchPlace = editText.getText().toString();
 
                 Geocoder geocoder = new Geocoder(getBaseContext()); //https://salix97.tistory.com/124
@@ -50,16 +69,31 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
                         search(addresses);
                     }
                 } catch(Exception e) {
-
+                    e.printStackTrace();
                 }
+            }
+        });
 
+        Button saveButton = findViewById(R.id.save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String date = getIntent().getStringExtra("selectedDate");
+                ScheduleItem si = new ScheduleItem(titleEditText.getText().toString(), contentEditText.getText().toString(),
+                        date, startTimePicker.getHour() + ":" + startTimePicker.getMinute(),
+                        endTimePicker.getHour() + ":" + endTimePicker.getMinute(),
+                        Double.toString(latLng.latitude), Double.toString(latLng.longitude)
+                );
+
+                DBHelper dbHelper = new DBHelper(getBaseContext());
+                dbHelper.insertScheduleBySQL(si);
             }
         });
     }
 
     protected void search(List<Address> addresses) {
         Address address = addresses.get(0);
-        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude()); // 주소
+        latLng = new LatLng(address.getLatitude(), address.getLongitude()); // 주소
 
         String addressText = String.format(
                 "%s, %s",
@@ -80,14 +114,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
-        LatLng hansung = new LatLng(37.5817891, 127.009854);
         googleMap.addMarker(
                 new MarkerOptions().
-                        position(hansung).
+                        position(latLng).
                         title("한성대학교"));
 
         // move the camera
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hansung,15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 
         mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());
     }

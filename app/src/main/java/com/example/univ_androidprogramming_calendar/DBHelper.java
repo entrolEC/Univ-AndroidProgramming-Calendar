@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertScheduleBySQL(String title, String content, String date, String start_time, String end_time, String location_latitude, String location_longitude) {
+    public void insertScheduleBySQL(ScheduleItem si) {
         try {
             String sql = String.format (
                     "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (NULL, '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
@@ -41,8 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     ScheduleContract.Schedules.KEY_END_TIME,
                     ScheduleContract.Schedules.KEY_LOCATION_LATITUDE,
                     ScheduleContract.Schedules.KEY_LOCATION_LONGITUDE,
-                    title, content, date, start_time, end_time, location_latitude, location_longitude
-                    );
+                    si.getTitle(), si.getContent(), si.getDate(), si.getStart_time(), si.getEnd_time(), si.getLocation_latitude(), si.getLocation_longitude());
 
             getWritableDatabase().execSQL(sql);
         } catch (SQLException e) {

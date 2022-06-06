@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -33,18 +35,18 @@ import java.util.List;
 
 public class CalendarAdapter extends BaseAdapter {
     private Context mContext;
-    private Calendar calendar;
+    private Calendar calendar, tempCalendar = Calendar.getInstance();
     private int minDate = 0;
     private ListView lastSelected;
 
     private DBHelper mDBHelper;
 
-    public CalendarAdapter(Context mContext, int position) {
+    public CalendarAdapter(Context mContext, int position, Calendar calendar) {
         this.mContext = mContext;
-        this.calendar = Calendar.getInstance();
+        this.calendar = calendar;
 
-        this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-        this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - position));
+        this.calendar.set(Calendar.YEAR, tempCalendar.get(Calendar.YEAR));
+        this.calendar.set(Calendar.MONTH, tempCalendar.get(Calendar.MONTH) - (50 - position));
         Log.i("Position", Integer.toString(position));
 
         this.calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -111,8 +113,18 @@ public class CalendarAdapter extends BaseAdapter {
                             builder.setItems(items, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String selectedText = ListItems.get(which).getTitle();
-                                    Toast.makeText(mContext, selectedText, Toast.LENGTH_SHORT).show();
+                                    ScheduleItem selectedItem = ListItems.get(which);
+
+                                    Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                                    intent.putExtra("title", selectedItem.getTitle());
+                                    intent.putExtra("content", selectedItem.getContent());
+                                    intent.putExtra("date", selectedItem.getDate());
+                                    intent.putExtra("start_time", selectedItem.getStart_time());
+                                    intent.putExtra("end_time", selectedItem.getEnd_time());
+                                    intent.putExtra("location_latitude", selectedItem.getLocation_latitude());
+                                    intent.putExtra("location_longitude", selectedItem.getLocation_longitude());
+
+                                    mContext.startActivity(intent);
                                 }
                             });
 
@@ -124,6 +136,8 @@ public class CalendarAdapter extends BaseAdapter {
                         }
                         lastSelected = finalListView;
                         finalListView.setBackgroundResource(R.drawable.month_selected_border);
+                        calendar.set(Calendar.DATE, i - minDate + 1);
+
                     }
                 });
 

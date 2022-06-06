@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
         viewPager = findViewById(R.id.vpPager);
-        vpAdapter = new MonthPagerAdapter(this);
+        vpAdapter = new MonthPagerAdapter(this, calendar);
         viewPager.setAdapter(vpAdapter);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 Log.i("Position", Integer.toString(position));
                 if (viewPager.getAdapter() instanceof MonthPagerAdapter) {
-                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - (50 - (position == 0 ? 50 : position)));
+                    actionBarCalendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+                    actionBarCalendar.set(Calendar.MONTH, Calendar.getInstance().get(Calendar.MONTH) - (50 - (position == 0 ? 50 : position)));
 
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
@@ -60,15 +60,17 @@ public class MainActivity extends AppCompatActivity {
         mDBHelper = new DBHelper(this);
 //        mDBHelper.insertScheduleBySQL("일정 3", "test", "2022-6-6", "12:00", "14:00", "1", "2");
 
-        PrintAllDB();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                Intent intent = new Intent(getApplicationContext(), AddScheduleActivity.class);
+               intent.putExtra("selectedDate", calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DATE));
                startActivity(intent);
             }
         });
+
+        PrintAllDB();
 
     }
 
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_month:
                 if (!(viewPager.getAdapter() instanceof MonthPagerAdapter)) {
-                    vpAdapter = new MonthPagerAdapter(this);
+                    vpAdapter = new MonthPagerAdapter(this, calendar);
                     viewPager.setAdapter(vpAdapter);
                 }
                 return true;
