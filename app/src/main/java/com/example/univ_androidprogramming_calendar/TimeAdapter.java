@@ -2,6 +2,7 @@ package com.example.univ_androidprogramming_calendar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,10 +19,12 @@ public class TimeAdapter extends BaseAdapter {
     private Context mContext;
     private int selectedPosition = -1;
     private WeekAdapter weekAdapter;
+    private DBHelper mDBHelper;
 
     public TimeAdapter(Context mContent, WeekAdapter weekAdapter) {
         this.mContext = mContent;
         this.weekAdapter = weekAdapter;
+        mDBHelper = new DBHelper(mContext);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class TimeAdapter extends BaseAdapter {
                 selectedPosition = position;
                 textView.setBackgroundColor(Color.CYAN);
 
-                weekAdapter.setSelected(position%7);
+                weekAdapter.setSelected(position);
                 weekAdapter.notifyDataSetChanged();
                 TimeAdapter.this.notifyDataSetChanged();
                 Log.d("adapter listener", String.valueOf(selectedPosition));
@@ -67,6 +70,8 @@ public class TimeAdapter extends BaseAdapter {
         if(selectedPosition == position) {
             textView.setBackgroundColor(Color.CYAN);
         }
+
+//        Cursor cursor = mDBHelper.getScheduleBySQL(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1));
 
         return textView;
     }

@@ -16,11 +16,13 @@ import java.util.Calendar;
 public class WeekAdapter extends BaseAdapter {
     private Context mContent;
     private Calendar calendar;
+    private Calendar selectedCalendar;
     private int selected;
 
-    public WeekAdapter(Context mContent, Calendar calendar) {
+    public WeekAdapter(Context mContent, Calendar calendar, Calendar selectedCalendar) {
         this.mContent = mContent;
         this.calendar = calendar;
+        this.selectedCalendar = selectedCalendar;
         selected = -1;
     }
 
@@ -66,6 +68,10 @@ public class WeekAdapter extends BaseAdapter {
         });
 
         if(selected == position) {
+            selectedCalendar.set(Calendar.YEAR, temp.get(Calendar.YEAR));
+            selectedCalendar.set(Calendar.MONTH, temp.get(Calendar.MONTH));
+            selectedCalendar.set(Calendar.DATE, temp.get(Calendar.DATE));
+            Log.i("check actionbarCalendar", String.format("%d/%d/%d", selectedCalendar.get(Calendar.YEAR), selectedCalendar.get(Calendar.MONTH), selectedCalendar.get(Calendar.DATE)));
             textView.setBackgroundColor(Color.CYAN);
         }
 
@@ -73,6 +79,8 @@ public class WeekAdapter extends BaseAdapter {
     }
 
     public void setSelected(int selected) {
-        this.selected = selected;
+        selectedCalendar.set(Calendar.HOUR, selected/7);
+        Log.i("check hour", String.format("%d",selectedCalendar.get(Calendar.HOUR)));
+        this.selected = selected%7;
     }
 }
