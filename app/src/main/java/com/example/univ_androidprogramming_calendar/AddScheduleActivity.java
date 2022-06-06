@@ -47,7 +47,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
         String id = "";
         if (getIntent().getStringExtra("title") != null) {
             id = getIntent().getStringExtra("id");
-            Log.i("Id", id);
             titleEditText.setText(getIntent().getStringExtra("title"));
             contentEditText.setText(getIntent().getStringExtra("content"));
             startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time").split(":")[0]));
