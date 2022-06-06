@@ -103,11 +103,21 @@ public class CalendarAdapter extends BaseAdapter {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
-                        if (items.length <= 1) {
-                            Toast.makeText(mContext, "스케쥴이 없습니다.", Toast.LENGTH_SHORT).show();
+                        if (items.length == 1) {
+                            ScheduleItem selectedItem = ListItems.get(0);
 
+                            Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                            intent.putExtra("title", selectedItem.getTitle());
+                            intent.putExtra("content", selectedItem.getContent());
+                            intent.putExtra("date", selectedItem.getDate());
+                            intent.putExtra("start_time", selectedItem.getStart_time());
+                            intent.putExtra("end_time", selectedItem.getEnd_time());
+                            intent.putExtra("location_latitude", selectedItem.getLocation_latitude());
+                            intent.putExtra("location_longitude", selectedItem.getLocation_longitude());
+
+                            mContext.startActivity(intent);
                         }
-                        else {
+                        else if (items.length > 1) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                             builder.setTitle(calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1) + "일");
                             builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -140,8 +150,6 @@ public class CalendarAdapter extends BaseAdapter {
 
                     }
                 });
-
-//                Log.i("Buffer", "[" + calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1) + "]\t" + buffer.toString());
             }
         } else {
             listView = (ListView) view;
@@ -160,26 +168,6 @@ public class CalendarAdapter extends BaseAdapter {
 
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
         listView.setBackgroundResource(R.drawable.month_border);
-
-        // https://huskdoll.tistory.com/566
-//        if (0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-//            // TODO : 아이템 클릭 시 Dialog 표시
-//            ListView finalListView = listView;
-//            listView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (lastSelected != null) {
-//                        lastSelected.setBackgroundResource(R.drawable.month_border);
-//                    }
-//                    lastSelected = finalListView;
-//                    finalListView.setBackgroundColor(Color.CYAN);
-//
-//                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
-//                    Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-
 
         return listView;
     }
