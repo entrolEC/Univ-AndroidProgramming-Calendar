@@ -112,7 +112,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
             public void onClick(View v) {
                 DBHelper dbHelper = new DBHelper(getBaseContext());
                 dbHelper.deleteScheduleBySQL(finalId);
-
                 finish();
             }
         });

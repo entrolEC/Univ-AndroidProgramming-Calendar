@@ -32,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
+        if (getIntent().getStringExtra("year") != null) {
+            calendar.set(Calendar.YEAR, Integer.parseInt(getIntent().getStringExtra("year")));
+            calendar.set(Calendar.MONTH, Integer.parseInt(getIntent().getStringExtra("month")));
+            calendar.set(Calendar.DATE, Integer.parseInt(getIntent().getStringExtra("date")));
+            actionBarCalendar.set(Calendar.YEAR, Integer.parseInt(getIntent().getStringExtra("year")));
+            actionBarCalendar.set(Calendar.MONTH, Integer.parseInt(getIntent().getStringExtra("month")));
+            actionBarCalendar.set(Calendar.DATE, Integer.parseInt(getIntent().getStringExtra("date")));
+        }
+
         viewPager = findViewById(R.id.vpPager);
         vpAdapter = new MonthPagerAdapter(this, calendar);
         viewPager.setAdapter(vpAdapter);
@@ -72,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         PrintAllDB();
-
     }
 
     @Override
@@ -85,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(pos, false);
             }
         }, 100);
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        // https://stackoverflow.com/questions/3053761/reload-activity-in-android
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     @Override
