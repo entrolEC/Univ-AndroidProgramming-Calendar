@@ -44,13 +44,16 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
         TimePicker startTimePicker = findViewById(R.id.datePicker_start);
         TimePicker endTimePicker = findViewById(R.id.datePicker_end);
 
+        String id = "";
         if (getIntent().getStringExtra("title") != null) {
+            id = getIntent().getStringExtra("id");
+            Log.i("Id", id);
             titleEditText.setText(getIntent().getStringExtra("title"));
             contentEditText.setText(getIntent().getStringExtra("content"));
             startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time").split(":")[0]));
             startTimePicker.setMinute(Integer.parseInt(getIntent().getStringExtra("start_time").split(":")[1]));
             endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
-            endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[0]));
+            endTimePicker.setMinute(Integer.parseInt(getIntent().getStringExtra("end_time").split(":")[1]));
             latLng = new LatLng(Double.parseDouble(getIntent().getStringExtra("location_latitude")), Double.parseDouble(getIntent().getStringExtra("location_longitude")));
         } else if (getIntent().getStringExtra("start_time") != null) {
             startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time")));
@@ -81,7 +84,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onClick(View v) {
                 String date = getIntent().getStringExtra("selectedDate");
-                ScheduleItem si = new ScheduleItem(titleEditText.getText().toString(), contentEditText.getText().toString(),
+                ScheduleItem si = new ScheduleItem("", titleEditText.getText().toString(), contentEditText.getText().toString(),
                         date, startTimePicker.getHour() + ":" + startTimePicker.getMinute(),
                         endTimePicker.getHour() + ":" + endTimePicker.getMinute(),
                         Double.toString(latLng.latitude), Double.toString(latLng.longitude)
@@ -89,6 +92,28 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
 
                 DBHelper dbHelper = new DBHelper(getBaseContext());
                 dbHelper.insertScheduleBySQL(si);
+
+                finish();
+            }
+        });
+
+        Button cancelButton = findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button deleteButton = findViewById(R.id.delete_button);
+        String finalId = id;
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBHelper dbHelper = new DBHelper(getBaseContext());
+                dbHelper.deleteScheduleBySQL(finalId);
+
+                finish();
             }
         });
     }

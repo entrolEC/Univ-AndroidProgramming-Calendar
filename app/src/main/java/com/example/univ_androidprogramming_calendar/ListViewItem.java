@@ -16,12 +16,10 @@ public class ListViewItem {
     public String getTitle() {
         return this.title;
     }
-
-    public String getContent() {
-        return content;
-    }
-
     public void setContent(String content) {
         this.content = content;
+    }
+    public String getContent() {
+        return content;
     }
 }

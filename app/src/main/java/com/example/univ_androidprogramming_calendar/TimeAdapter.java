@@ -85,7 +85,7 @@ public class TimeAdapter extends BaseAdapter {
         Cursor cursor = mDBHelper.getScheduleWithDateAndTimeBySQL(temp.get(Calendar.YEAR) + "-" + (temp.get(Calendar.MONTH) + 1) + "-" + temp.get(Calendar.DATE), String.valueOf(position / 7));
 
         if (cursor.moveToNext()) {
-            ScheduleItem si = new ScheduleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            ScheduleItem si = new ScheduleItem("", cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
             textView.setText(si.getTitle());
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override

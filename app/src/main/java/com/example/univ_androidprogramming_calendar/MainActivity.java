@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mDBHelper = new DBHelper(this);
-//        mDBHelper.insertScheduleBySQL("일정 3", "test", "2022-6-6", "12:00", "14:00", "1", "2");
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

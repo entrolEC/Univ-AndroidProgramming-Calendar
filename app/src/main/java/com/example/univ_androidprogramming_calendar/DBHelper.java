@@ -1,6 +1,5 @@
 package com.example.univ_androidprogramming_calendar;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -105,50 +104,5 @@ public class DBHelper extends SQLiteOpenHelper {
         } catch (SQLException e) {
             Log.e(TAG,"Error in updating recodes");
         }
-    }
-
-    public long insertScheduleByMethod(String title, String content, String date, String start_time, String end_time, String location_latitude, String location_longitude) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(ScheduleContract.Schedules.KEY_TITLE, title);
-        values.put(ScheduleContract.Schedules.KEY_CONTENT, content);
-        values.put(ScheduleContract.Schedules.KEY_DATE, date);
-        values.put(ScheduleContract.Schedules.KEY_START_TIME, start_time);
-        values.put(ScheduleContract.Schedules.KEY_END_TIME, end_time);
-        values.put(ScheduleContract.Schedules.KEY_LOCATION_LATITUDE, location_latitude);
-        values.put(ScheduleContract.Schedules.KEY_LOCATION_LONGITUDE, location_longitude);
-
-        return db.insert(ScheduleContract.Schedules.TABLE_NAME,null,values);
-    }
-
-    public Cursor getAllScheduleByMethod() {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.query(ScheduleContract.Schedules.TABLE_NAME,null,null,null,null,null,null);
-    }
-
-    public long deleteScheduleByMethod(String _id) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String whereClause = ScheduleContract.Schedules._ID +" = ?";
-        String[] whereArgs ={_id};
-        return db.delete(ScheduleContract.Schedules.TABLE_NAME, whereClause, whereArgs);
-    }
-
-    public long updateScheduleByMethod(String _id, String title, String content, String date, String start_time, String end_time, String location_latitude, String location_longitude) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(ScheduleContract.Schedules.KEY_TITLE, title);
-        values.put(ScheduleContract.Schedules.KEY_CONTENT, content);
-        values.put(ScheduleContract.Schedules.KEY_DATE, date);
-        values.put(ScheduleContract.Schedules.KEY_START_TIME, start_time);
-        values.put(ScheduleContract.Schedules.KEY_END_TIME, end_time);
-        values.put(ScheduleContract.Schedules.KEY_LOCATION_LATITUDE, location_latitude);
-        values.put(ScheduleContract.Schedules.KEY_LOCATION_LONGITUDE, location_longitude);
-
-        String whereClause = ScheduleContract.Schedules._ID +" = ?";
-        String[] whereArgs ={_id};
-
-        return db.update(ScheduleContract.Schedules.TABLE_NAME, values, whereClause, whereArgs);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.univ_androidprogramming_calendar;
 
 public class ScheduleItem {
+    private String id;
     private String title;
     private String content;
     private String date;
@@ -9,7 +10,8 @@ public class ScheduleItem {
     private String location_latitude;
     private String location_longitude;
 
-    public ScheduleItem(String title, String content, String date, String start_time, String end_time, String location_latitude, String location_longitude) {
+    public ScheduleItem(String id, String title, String content, String date, String start_time, String end_time, String location_latitude, String location_longitude) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
@@ -20,6 +22,14 @@ public class ScheduleItem {
     }
 
     // Add Getter and Setter
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

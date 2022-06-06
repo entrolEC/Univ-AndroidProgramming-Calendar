@@ -78,13 +78,13 @@ public class CalendarAdapter extends BaseAdapter {
 
         if (view == null) {
             if(0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                ScheduleItem si = new ScheduleItem(Integer.toString(i - minDate + 1), "", "", "", "", "", "");
+                ScheduleItem si = new ScheduleItem("", Integer.toString(i - minDate + 1), "", "", "", "", "", "");
                 adapter.addItem(si);
 
                 Cursor cursor = mDBHelper.getScheduleWithDateBySQL(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1));
                 List<ScheduleItem> ListItems = new ArrayList<>();
                 while (cursor.moveToNext()) {
-                    si = new ScheduleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                    si = new ScheduleItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
                     adapter.addItem(si);
                     ListItems.add(si);
                 }
@@ -107,6 +107,7 @@ public class CalendarAdapter extends BaseAdapter {
                             ScheduleItem selectedItem = ListItems.get(0);
 
                             Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                            intent.putExtra("id", selectedItem.getId());
                             intent.putExtra("title", selectedItem.getTitle());
                             intent.putExtra("content", selectedItem.getContent());
                             intent.putExtra("date", selectedItem.getDate());
@@ -126,6 +127,7 @@ public class CalendarAdapter extends BaseAdapter {
                                     ScheduleItem selectedItem = ListItems.get(which);
 
                                     Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                                    intent.putExtra("id", selectedItem.getId());
                                     intent.putExtra("title", selectedItem.getTitle());
                                     intent.putExtra("content", selectedItem.getContent());
                                     intent.putExtra("date", selectedItem.getDate());
