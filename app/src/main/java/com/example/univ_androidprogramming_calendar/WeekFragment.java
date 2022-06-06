@@ -17,16 +17,20 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class WeekFragment extends Fragment {
     private Calendar calendar;
+    private Calendar selectedCalendar;
+
 
     public WeekFragment() {
     }
 
-    public WeekFragment(Calendar calendar) {
+    public WeekFragment(Calendar calendar, Calendar selectedCalendar) {
         this.calendar = calendar;
+        this.selectedCalendar = selectedCalendar;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class WeekFragment extends Fragment {
         Log.d("weekfragment", "onCreateView: "+calendar.getTime());
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         GridView dateGrid = (GridView) view.findViewById(R.id.date_gridview);
-        WeekAdapter weekAdapter = new WeekAdapter(getActivity(), calendar);
+        WeekAdapter weekAdapter = new WeekAdapter(getActivity(), calendar, selectedCalendar);
         TimeAdapter timeAdapter = new TimeAdapter(getActivity(), weekAdapter);
         dateGrid.setAdapter(weekAdapter);
 

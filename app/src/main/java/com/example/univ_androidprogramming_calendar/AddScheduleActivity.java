@@ -54,6 +54,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
             latLng = new LatLng(Double.parseDouble(getIntent().getStringExtra("location_latitude")), Double.parseDouble(getIntent().getStringExtra("location_longitude")));
         }
 
+        if (getIntent().getStringExtra("start_time") != null) {
+            startTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time")));
+            endTimePicker.setHour(Integer.parseInt(getIntent().getStringExtra("start_time")));
+        }
         Button searchButton = findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

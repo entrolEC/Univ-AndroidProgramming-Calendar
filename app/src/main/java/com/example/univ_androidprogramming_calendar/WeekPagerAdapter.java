@@ -11,10 +11,13 @@ import java.util.Calendar;
 
 public class WeekPagerAdapter extends FragmentStateAdapter {
     Calendar calendar;
+    Calendar selectedCalendar;
 
-    public WeekPagerAdapter(FragmentActivity fa, Calendar calendar) {
+
+    public WeekPagerAdapter(FragmentActivity fa, Calendar calendar, Calendar actionbarCalendar) {
         super(fa);
         this.calendar = calendar;
+        this.selectedCalendar = actionbarCalendar;
     }
 
     @NonNull
@@ -25,7 +28,7 @@ public class WeekPagerAdapter extends FragmentStateAdapter {
         temp.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
         temp.set(Calendar.DATE, calendar.get(Calendar.DATE));
         temp.add(Calendar.DATE, 7 * (position - 50));
-        WeekFragment fragobj = new WeekFragment(temp);
+        WeekFragment fragobj = new WeekFragment(temp, selectedCalendar);
         return fragobj;
     }
 

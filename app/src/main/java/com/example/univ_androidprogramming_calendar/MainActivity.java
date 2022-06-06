@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
                 } else {
-                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-                    actionBarCalendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - (50 - (position == 0 ? 50 : position)) * 7);
+//                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+//                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+//                    actionBarCalendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - (50 - (position == 0 ? 50 : position)) * 7);
 
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
@@ -58,12 +58,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mDBHelper = new DBHelper(this);
+//        mDBHelper.insertScheduleBySQL("일정 3", "test", "2022-6-6", "12:00", "14:00", "1", "2");
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                Intent intent = new Intent(getApplicationContext(), AddScheduleActivity.class);
                intent.putExtra("selectedDate", calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DATE));
+               intent.putExtra("start_time", String.valueOf(calendar.get(Calendar.HOUR)));
+                Log.i("check start_time", String.valueOf(calendar.get(Calendar.HOUR)));
                startActivity(intent);
             }
         });
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_week:
                 if (!(viewPager.getAdapter() instanceof WeekPagerAdapter)) {
-                    vpAdapter = new WeekPagerAdapter(this, calendar);
+                    vpAdapter = new WeekPagerAdapter(this, calendar, calendar);
                     viewPager.setAdapter(vpAdapter);
                 }
                 return true;
