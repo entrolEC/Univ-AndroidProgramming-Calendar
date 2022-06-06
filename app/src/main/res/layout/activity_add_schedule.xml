@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,43 +14,58 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="96dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <TextView
-            android:id="@+id/tv_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="시작"
             android:textSize="30dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="15dp"
-            tools:layout_editor_absoluteY="35dp" />
+            android:text="제목"/>
 
-        <TimePicker
-            android:id="@+id/datePicker_start"
-            android:layout_width="250dp"
-            android:layout_height="115dp"
-            android:layout_marginLeft="50dp"
-            android:timePickerMode="spinner" />
+        <EditText
+            android:id="@+id/title_editText"
+            android:layout_marginLeft="20dp"
+            android:width="300dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="95dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작"
+        android:textSize="30dp"
+        android:layout_gravity="center_vertical"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="35dp"
+        tools:ignore="MissingConstraints" />
 
+    <TimePicker
+        android:id="@+id/datePicker_start"
+        android:layout_width="250dp"
+        android:layout_height="115dp"
+        android:timePickerMode="spinner"
+        android:layout_marginLeft="50dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="종료"
             android:textSize="30dp"
-            tools:ignore="MissingConstraints"
+            android:layout_gravity="center_vertical"
             tools:layout_editor_absoluteX="15dp"
-            tools:layout_editor_absoluteY="35dp" />
+            tools:layout_editor_absoluteY="35dp"
+            tools:ignore="MissingConstraints" />
 
         <TimePicker
             android:id="@+id/datePicker_end"
@@ -107,3 +126,4 @@
 
     </LinearLayout>
 </LinearLayout>
+</ScrollView>
