@@ -6,6 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
+    private DBHelper mDBHelper;
     Calendar calendar = Calendar.getInstance(), actionBarCalendar = Calendar.getInstance();
     FragmentStateAdapter vpAdapter;
     ActionBar actionBar;
@@ -51,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mDBHelper = new DBHelper(this);
+//        mDBHelper.insertScheduleBySQL("일정 3", "test", "2022-6-6", "12:00", "14:00", "1", "2");
+
+        PrintAllDB();
     }
 
     @Override
@@ -99,5 +105,23 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void PrintAllDB() {
+        Cursor cursor = mDBHelper.getAllSchedulesBySQL();
+
+        StringBuffer buffer = new StringBuffer();
+        while (cursor.moveToNext()) {
+            buffer.append(cursor.getInt(0) + "\t");
+            buffer.append(cursor.getString(1) + "\t");
+            buffer.append(cursor.getString(2) + "\t");
+            buffer.append(cursor.getString(3) + "\t");
+            buffer.append(cursor.getString(4) + "\t");
+            buffer.append(cursor.getString(5) + "\t");
+            buffer.append(cursor.getString(6) + "\t");
+            buffer.append(cursor.getString(7) + "\n");
+        }
+
+        Log.i("DBList", buffer.toString());
     }
 }

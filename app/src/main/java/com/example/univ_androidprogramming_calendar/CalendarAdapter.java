@@ -1,9 +1,13 @@
 package com.example.univ_androidprogramming_calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -11,8 +15,11 @@ import android.view.Gravity;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,13 +27,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CalendarAdapter extends BaseAdapter {
     private Context mContext;
     private Calendar calendar;
     private int minDate = 0;
-    private TextView lastSelected;
+    private ListView lastSelected;
+
+    private DBHelper mDBHelper;
 
     public CalendarAdapter(Context mContext, int position) {
         this.mContext = mContext;
@@ -38,6 +49,8 @@ public class CalendarAdapter extends BaseAdapter {
 
         this.calendar.set(Calendar.DAY_OF_MONTH, 1);
         this.minDate = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        mDBHelper = new DBHelper(mContext);
     }
 
     @Override
@@ -58,19 +71,67 @@ public class CalendarAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView textView;
+        ListView listView = new ListView(mContext);
+        ListViewAdapter adapter = new ListViewAdapter();
 
         if (view == null) {
-            textView = new TextView(mContext);
-
             if(0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                textView.setText(Integer.toString(i - minDate + 1));
+                ScheduleItem si = new ScheduleItem(Integer.toString(i - minDate + 1), "", "", "", "", "", "");
+                adapter.addItem(si);
+
+                Cursor cursor = mDBHelper.getScheduleBySQL(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1));
+                List<ScheduleItem> ListItems = new ArrayList<>();
+                while (cursor.moveToNext()) {
+                    si = new ScheduleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                    adapter.addItem(si);
+                    ListItems.add(si);
+                }
+
+                listView.setAdapter(adapter);
+                listView.setDivider(Drawable.createFromPath("#00000000"));
+
+                // https://webnautes.tistory.com/1094
+                List<String> ListTitles = new ArrayList<>();
+                for (int j = 0; j < ListItems.size(); j++) {
+                    ListTitles.add(ListItems.get(j).getTitle());
+                }
+                final CharSequence[] items =  ListTitles.toArray(new String[ ListTitles.size()]);
+
+                ListView finalListView = listView;
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView parent, View v, int position, long id) {
+                        if (items.length <= 1) {
+                            Toast.makeText(mContext, "스케쥴이 없습니다.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setTitle(calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1) + "일");
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String selectedText = ListItems.get(which).getTitle();
+                                    Toast.makeText(mContext, selectedText, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            builder.show();
+                        }
+
+                        if (lastSelected != null) {
+                            lastSelected.setBackgroundResource(R.drawable.month_border);
+                        }
+                        lastSelected = finalListView;
+                        finalListView.setBackgroundResource(R.drawable.month_selected_border);
+                    }
+                });
+
+//                Log.i("Buffer", "[" + calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1) + "]\t" + buffer.toString());
             }
         } else {
-            textView = (TextView) view;
+            listView = (ListView) view;
         }
-
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
 
         // https://inma.tistory.com/72
         DisplayMetrics displayMetrics= new DisplayMetrics();
@@ -81,28 +142,31 @@ public class CalendarAdapter extends BaseAdapter {
         int width = ((Activity) mContext).findViewById(R.id.vpPager).getWidth();
         int height = ((Activity) mContext).findViewById(R.id.vpPager).getHeight() - (int) (20 * density);
 
-        textView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
+        listView.setLayoutParams(new GridView.LayoutParams(width / 7, height / 6));
 
         // https://stackoverflow.com/questions/12523005/how-set-background-drawable-programmatically-in-android
-        textView.setBackgroundResource(R.drawable.month_border);
+        listView.setBackgroundResource(R.drawable.month_border);
 
         // https://huskdoll.tistory.com/566
-        if (0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (lastSelected != null) {
-                        lastSelected.setBackgroundResource(R.drawable.month_border);
-                    }
-                    lastSelected = textView;
-                    textView.setBackgroundColor(Color.CYAN);
+//        if (0 <= i - minDate && i - minDate + 1 <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+//            // TODO : 아이템 클릭 시 Dialog 표시
+//            ListView finalListView = listView;
+//            listView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (lastSelected != null) {
+//                        lastSelected.setBackgroundResource(R.drawable.month_border);
+//                    }
+//                    lastSelected = finalListView;
+//                    finalListView.setBackgroundColor(Color.CYAN);
+//
+//                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
+//                    Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
 
-                    String msg = calendar.get(Calendar.YEAR) + "." + (calendar.get(Calendar.MONTH) + 1) + "." + Integer.toString(i - minDate + 1);
-                    Toast.makeText(mContext.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
 
-        return textView;
+        return listView;
     }
 }
