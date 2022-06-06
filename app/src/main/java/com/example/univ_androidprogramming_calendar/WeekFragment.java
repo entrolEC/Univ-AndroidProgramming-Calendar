@@ -47,7 +47,7 @@ public class WeekFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         GridView dateGrid = (GridView) view.findViewById(R.id.date_gridview);
         WeekAdapter weekAdapter = new WeekAdapter(getActivity(), calendar, selectedCalendar);
-        TimeAdapter timeAdapter = new TimeAdapter(getActivity(), weekAdapter);
+        TimeAdapter timeAdapter = new TimeAdapter(getActivity(), weekAdapter, calendar);
         dateGrid.setAdapter(weekAdapter);
 
         GridView timeGrid = (GridView) view.findViewById(R.id.time_gridview);

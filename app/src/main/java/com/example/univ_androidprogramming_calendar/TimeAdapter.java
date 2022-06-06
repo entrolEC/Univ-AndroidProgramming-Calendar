@@ -20,10 +20,12 @@ public class TimeAdapter extends BaseAdapter {
     private int selectedPosition = -1;
     private WeekAdapter weekAdapter;
     private DBHelper mDBHelper;
+    private Calendar calendar; // 주의 첫날인 일요일 기준
 
-    public TimeAdapter(Context mContent, WeekAdapter weekAdapter) {
+    public TimeAdapter(Context mContent, WeekAdapter weekAdapter, Calendar calendar) {
         this.mContext = mContent;
         this.weekAdapter = weekAdapter;
+        this.calendar = calendar;
         mDBHelper = new DBHelper(mContext);
     }
 
@@ -71,7 +73,18 @@ public class TimeAdapter extends BaseAdapter {
             textView.setBackgroundColor(Color.CYAN);
         }
 
-//        Cursor cursor = mDBHelper.getScheduleBySQL(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + Integer.toString(i - minDate + 1));
+        Calendar temp = Calendar.getInstance();
+        temp.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        temp.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+        temp.set(Calendar.DATE, calendar.get(Calendar.DATE));
+        temp.add(Calendar.DATE, position % 7);
+
+        Cursor cursor = mDBHelper.getScheduleWithDateAndTimeBySQL(temp.get(Calendar.YEAR) + "-" + (temp.get(Calendar.MONTH) + 1) + "-" + temp.get(Calendar.DATE), String.valueOf(position / 7));
+
+        if (cursor.moveToNext()) {
+            ScheduleItem si = new ScheduleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            textView.setText(si.getTitle());
+        }
 
         return textView;
     }

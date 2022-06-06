@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
                 } else {
-//                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-//                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-//                    actionBarCalendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - (50 - (position == 0 ? 50 : position)) * 7);
+                    actionBarCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+                    actionBarCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+                    actionBarCalendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - (50 - (position == 0 ? 50 : position)) * 7);
 
                     actionBar = getSupportActionBar();
                     actionBar.setTitle(Integer.toString(actionBarCalendar.get(Calendar.YEAR)) + "년" + Integer.toString(actionBarCalendar.get(Calendar.MONTH) + 1) + "월");
