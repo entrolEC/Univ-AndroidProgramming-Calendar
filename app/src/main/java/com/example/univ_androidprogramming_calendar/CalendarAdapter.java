@@ -104,19 +104,21 @@ public class CalendarAdapter extends BaseAdapter {
                     @Override
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         if (items.length == 1) {
-                            ScheduleItem selectedItem = ListItems.get(0);
+                            if (position != 0) {
+                                ScheduleItem selectedItem = ListItems.get(0);
 
-                            Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
-                            intent.putExtra("id", selectedItem.getId());
-                            intent.putExtra("title", selectedItem.getTitle());
-                            intent.putExtra("content", selectedItem.getContent());
-                            intent.putExtra("date", selectedItem.getDate());
-                            intent.putExtra("start_time", selectedItem.getStart_time());
-                            intent.putExtra("end_time", selectedItem.getEnd_time());
-                            intent.putExtra("location_latitude", selectedItem.getLocation_latitude());
-                            intent.putExtra("location_longitude", selectedItem.getLocation_longitude());
+                                Intent intent = new Intent(mContext.getApplicationContext(), AddScheduleActivity.class);
+                                intent.putExtra("id", selectedItem.getId());
+                                intent.putExtra("title", selectedItem.getTitle());
+                                intent.putExtra("content", selectedItem.getContent());
+                                intent.putExtra("date", selectedItem.getDate());
+                                intent.putExtra("start_time", selectedItem.getStart_time());
+                                intent.putExtra("end_time", selectedItem.getEnd_time());
+                                intent.putExtra("location_latitude", selectedItem.getLocation_latitude());
+                                intent.putExtra("location_longitude", selectedItem.getLocation_longitude());
 
-                            mContext.startActivity(intent);
+                                mContext.startActivity(intent);
+                            }
                         }
                         else if (items.length > 1) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
