@@ -3,6 +3,8 @@ package com.example.univ_androidprogramming_calendar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class AddScheduleActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -100,6 +103,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -109,9 +113,24 @@ public class AddScheduleActivity extends AppCompatActivity implements OnMapReady
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBHelper dbHelper = new DBHelper(getBaseContext());
-                dbHelper.deleteScheduleBySQL(finalId);
-                finish();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddScheduleActivity.this);
+                builder.setTitle("삭제 하시겠습니까?");
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DBHelper dbHelper = new DBHelper(getBaseContext());
+                        dbHelper.deleteScheduleBySQL(finalId);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+                builder.show();
+
             }
         });
     }
