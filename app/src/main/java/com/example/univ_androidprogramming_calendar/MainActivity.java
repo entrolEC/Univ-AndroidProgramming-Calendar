@@ -32,17 +32,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
-        if (getIntent().getStringExtra("year") != null) {
-            calendar.set(Calendar.YEAR, Integer.parseInt(getIntent().getStringExtra("year")));
-            calendar.set(Calendar.MONTH, Integer.parseInt(getIntent().getStringExtra("month")));
-            calendar.set(Calendar.DATE, Integer.parseInt(getIntent().getStringExtra("date")));
-            actionBarCalendar.set(Calendar.YEAR, Integer.parseInt(getIntent().getStringExtra("year")));
-            actionBarCalendar.set(Calendar.MONTH, Integer.parseInt(getIntent().getStringExtra("month")));
-            actionBarCalendar.set(Calendar.DATE, Integer.parseInt(getIntent().getStringExtra("date")));
+        Intent intent = getIntent();
+        if (intent.getStringExtra("year") != null) {
+            calendar.set(Calendar.YEAR, Integer.parseInt(intent.getStringExtra("year")));
+            calendar.set(Calendar.MONTH, Integer.parseInt(intent.getStringExtra("month")));
+            calendar.set(Calendar.DATE, Integer.parseInt(intent.getStringExtra("date")));
+            actionBarCalendar.set(Calendar.YEAR, Integer.parseInt(intent.getStringExtra("year")));
+            actionBarCalendar.set(Calendar.MONTH, Integer.parseInt(intent.getStringExtra("month")));
+            actionBarCalendar.set(Calendar.DATE, Integer.parseInt(intent.getStringExtra("date")));
         }
 
         viewPager = findViewById(R.id.vpPager);
-        vpAdapter = new MonthPagerAdapter(this, calendar);
+        if (intent.getStringExtra("lastAction") == null) {
+            vpAdapter = new MonthPagerAdapter(this, calendar);
+        }
+        else if (intent.getStringExtra("lastAction").equals("month")) {
+            vpAdapter = new MonthPagerAdapter(this, calendar);
+        }
+        else if (intent.getStringExtra("lastAction").equals("week")) {
+            vpAdapter = new WeekPagerAdapter(this, calendar, calendar);
+        }
+
         viewPager.setAdapter(vpAdapter);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -102,6 +112,16 @@ public class MainActivity extends AppCompatActivity {
         // https://stackoverflow.com/questions/3053761/reload-activity-in-android
         finish();
         overridePendingTransition(0, 0);
+        Intent intent = getIntent();
+
+        if (viewPager.getAdapter() instanceof MonthPagerAdapter) {
+            intent.putExtra("lastAction", "month");
+        }
+        else if (viewPager.getAdapter() instanceof WeekPagerAdapter) {
+            intent.putExtra("lastAction", "week");
+        }
+
+
         startActivity(getIntent());
         overridePendingTransition(0, 0);
     }

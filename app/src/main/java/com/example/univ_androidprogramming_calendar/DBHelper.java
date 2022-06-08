@@ -66,11 +66,10 @@ public class DBHelper extends SQLiteOpenHelper {
     // 날짜와 시간으로 데이터 가져오기
     public Cursor getScheduleWithDateAndTimeBySQL(String date, String time) {
         String sql = String.format (
-                "SELECT * FROM %s WHERE %s = '%s' AND %s LIKE '%s%%'",
+                "SELECT * FROM %s WHERE %s = '%s' AND %s LIKE '%s:%%'",
                 ScheduleContract.Schedules.TABLE_NAME,
                 ScheduleContract.Schedules.KEY_DATE, date,
                 ScheduleContract.Schedules.KEY_START_TIME, time);
-        Log.i("DBList", sql);
         return getReadableDatabase().rawQuery(sql,null);
     }
 
